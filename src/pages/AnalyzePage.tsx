@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import UrlValidation from "@/components/UrlValidation";
 import AnalysisProgress from "@/components/AnalysisProgress";
 import PaymentSection from "@/components/PaymentSection";
+import AnalysisReport from "@/components/AnalysisReport";
 
 const AnalyzePage = () => {
   const [yourWebsiteUrl, setYourWebsiteUrl] = useState("");
@@ -26,7 +26,6 @@ const AnalyzePage = () => {
       return;
     }
 
-    // Basic URL validation
     try {
       new URL(yourWebsiteUrl);
       new URL(competitorUrl);
@@ -38,7 +37,6 @@ const AnalyzePage = () => {
     setIsLoading(true);
     setStage("validating");
     
-    // Simulate URL validation
     setTimeout(() => {
       setStage("analyzing");
       simulateAnalysis();
@@ -55,7 +53,7 @@ const AnalyzePage = () => {
       
       if (currentStep >= totalSteps) {
         clearInterval(interval);
-        setStage("complete"); // Thay đổi: đi thẳng đến complete thay vì payment
+        setStage("complete");
         setIsLoading(false);
         toast.success("Analysis complete! Your report is ready.");
       }
@@ -153,19 +151,10 @@ const AnalyzePage = () => {
             )}
 
             {stage === "complete" && (
-              <div className="text-center py-8">
-                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-                  <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h2 className="text-lg font-medium text-slate-900 mb-2">Analysis Complete!</h2>
-                <p className="text-slate-500 mb-6">Your detailed report is ready to download.</p>
-                <Button className="mb-4">Download PDF Report</Button>
-                <p className="text-sm text-slate-500">
-                  We've also sent the report to your email for future reference.
-                </p>
-              </div>
+              <AnalysisReport
+                yourWebsiteUrl={yourWebsiteUrl}
+                competitorUrl={competitorUrl}
+              />
             )}
           </CardContent>
         </Card>
