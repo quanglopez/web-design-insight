@@ -55,8 +55,9 @@ const AnalyzePage = () => {
       
       if (currentStep >= totalSteps) {
         clearInterval(interval);
-        setStage("payment");
+        setStage("complete"); // Thay đổi: đi thẳng đến complete thay vì payment
         setIsLoading(false);
+        toast.success("Analysis complete! Your report is ready.");
       }
     }, 100);
   };
@@ -64,6 +65,11 @@ const AnalyzePage = () => {
   const handlePayment = () => {
     setStage("complete");
     toast.success("Payment successful! Your report is ready.");
+  };
+
+  const skipPayment = () => {
+    setStage("complete");
+    toast.success("Analysis complete! Your report is ready.");
   };
 
   return (
@@ -140,7 +146,10 @@ const AnalyzePage = () => {
             )}
 
             {stage === "payment" && (
-              <PaymentSection onPaymentComplete={handlePayment} />
+              <PaymentSection 
+                onPaymentComplete={handlePayment} 
+                onSkipPayment={skipPayment}
+              />
             )}
 
             {stage === "complete" && (

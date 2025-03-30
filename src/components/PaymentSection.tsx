@@ -8,9 +8,10 @@ import { Loader2 } from "lucide-react";
 
 interface PaymentSectionProps {
   onPaymentComplete: () => void;
+  onSkipPayment?: () => void;
 }
 
-const PaymentSection = ({ onPaymentComplete }: PaymentSectionProps) => {
+const PaymentSection = ({ onPaymentComplete, onSkipPayment }: PaymentSectionProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -34,7 +35,7 @@ const PaymentSection = ({ onPaymentComplete }: PaymentSectionProps) => {
       <div className="text-center mb-8">
         <h3 className="text-lg font-medium text-slate-900 mb-2">Analysis Complete!</h3>
         <p className="text-slate-500">
-          Your report is ready. Complete the payment to access your full analysis.
+          Your report is ready. You can complete the payment to access your full analysis or continue with the free version.
         </p>
       </div>
       
@@ -45,6 +46,30 @@ const PaymentSection = ({ onPaymentComplete }: PaymentSectionProps) => {
             <p className="text-sm text-slate-500">One-time purchase with lifetime access</p>
           </div>
           <div className="text-xl font-bold text-slate-900">$49</div>
+        </div>
+      </div>
+      
+      {onSkipPayment && (
+        <div className="mb-6 text-center">
+          <Button 
+            variant="outline"
+            onClick={onSkipPayment}
+            className="w-full mb-4"
+          >
+            Continue with Free Version
+          </Button>
+          <p className="text-sm text-slate-500">
+            The free version includes basic analysis results.
+          </p>
+        </div>
+      )}
+      
+      <div className="relative mb-6">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t border-slate-200"></span>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-2 bg-white text-slate-500">Or Pay for Premium Report</span>
         </div>
       </div>
       
